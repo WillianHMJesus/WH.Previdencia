@@ -1,5 +1,5 @@
 # WH.Previdencia
-Projeto fictício que simula uma API do portal de previdência privada.  
+Projeto fictício que simula uma API do portal de previdência privada, criado com o objetivo de praticar os conhecimento nas mais novas tecnologias, conceitos e boas práticas.  
 
 ## Tecnologias Implementadas:
 - .NET Core v3.1
