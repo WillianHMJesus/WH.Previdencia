@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using WH.Previdencia.Domain.Certificados.ValueObjects;
+using WH.Previdencia.Domain.Core;
 
 namespace WH.Previdencia.Domain.Certificados
 {
-    public class Certificado
+    public class Certificado : Entity
     {
-        public Guid CertificadoId { get; private set; }
         public string Numero { get; private set; }
         private decimal Saldo { get; set; }
         public bool Ativo { get; private set; }
@@ -16,7 +16,7 @@ namespace WH.Previdencia.Domain.Certificados
 
         public Certificado(string numero, bool ativo, Produto produto, Vigencia vigencia)
         {
-            CertificadoId = Guid.NewGuid();
+            Id = Guid.NewGuid();
             Numero = numero;
             Ativo = ativo;
             Produto = produto;
@@ -26,31 +26,26 @@ namespace WH.Previdencia.Domain.Certificados
 
         public decimal ObterSaldo()
         {
+            //Adicionar Regra de Negócio
             return Saldo;
         }
 
         public void Aportar(decimal valor)
         {
-            if (valor < Produto.Valor)
-                throw new Exception("O valor de aporte não pode ser menor que o valor contratado.");
-
-            Saldo += valor;
+            if (this.ValidarAporteScopeEhValido(valor))
+                Saldo += valor;
         }
 
         public void Resgatar(decimal valor)
         {
-            if (valor > Saldo)
-                throw new Exception("O valor de resgate não pode ser maior que o saldo.");
-
-            Saldo -= valor;
+            if (this.ValidarResgateScopeEhValido(valor))
+                Saldo -= valor;
         }
 
         public void Desativar()
         {
-            if (Saldo > 0)
-                throw new Exception("Não é possível desativar um certificado com saldo.");
-
-            Ativo = false;
+            if (this.DesativarCertificadoScopeEhValido())
+                Ativo = false;
         }
     }
 }

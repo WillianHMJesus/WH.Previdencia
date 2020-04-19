@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System;
+using System.Linq;
 using WH.Previdencia.Domain.Certificados;
 using WH.Previdencia.Domain.Certificados.Enums;
 using WH.Previdencia.Domain.Certificados.ValueObjects;
@@ -7,7 +8,6 @@ using Xunit;
 
 namespace WH.Previdencia.Testes.UnitTests.Certificados
 {
-    [Trait("Grupo", "Certificado")]
     public class CertificadoTests
     {
         private readonly Certificado _certificado;
@@ -59,9 +59,10 @@ namespace WH.Previdencia.Testes.UnitTests.Certificados
         [Fact]
         public void Certificado_Aportar_AportarValorMenorQueValorProduto()
         {
-            var exception = Assert.Throws<Exception>(() => _certificado.Aportar(50));
+            _certificado.Aportar(50);
+            var error = _certificado.ValidationResult.Errors.FirstOrDefault(x => x.ErrorMessage == "O valor de aporte não pode ser menor que o valor contratado.");
 
-            Assert.Equal("O valor de aporte não pode ser menor que o valor contratado.", exception.Message);
+            Assert.True(error != null);
         }
 
         [Fact]
@@ -77,9 +78,10 @@ namespace WH.Previdencia.Testes.UnitTests.Certificados
         public void Certificado_Resgatar_ResgatarValorAcimaDoSaldo()
         {
             _certificado.Aportar(100);
-            var exception = Assert.Throws<Exception>(() => _certificado.Resgatar(150));
+            _certificado.Resgatar(150);
+            var error = _certificado.ValidationResult.Errors.FirstOrDefault(x => x.ErrorMessage == "O valor de resgate não pode ser maior que o saldo.");
 
-            Assert.Equal("O valor de resgate não pode ser maior que o saldo.", exception.Message);
+            Assert.True(error != null);
         }
 
         [Fact]
@@ -94,9 +96,10 @@ namespace WH.Previdencia.Testes.UnitTests.Certificados
         public void Certificado_Desativar_DesativarCertificadoComSaldo()
         {
             _certificado.Aportar(100);
-            var exception = Assert.Throws<Exception>(() => _certificado.Desativar());
+            _certificado.Desativar();
+            var error = _certificado.ValidationResult.Errors.FirstOrDefault(x => x.ErrorMessage == "Não é possível desativar um certificado com saldo.");
 
-            Assert.Equal("Não é possível desativar um certificado com saldo.", exception.Message);
+            Assert.True(error != null);
         }
     }
 }

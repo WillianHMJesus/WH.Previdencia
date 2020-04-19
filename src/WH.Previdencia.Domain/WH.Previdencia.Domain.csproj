@@ -13,4 +13,8 @@
     <Folder Include="Beneficiarios\Specification\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WH.Previdencia.Domain.Core\WH.Previdencia.Domain.Core.csproj" />
+  </ItemGroup>
+
 </Project>
