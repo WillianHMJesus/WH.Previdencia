@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace WH.Previdencia.Domain.Certificados
+namespace WH.Previdencia.Domain.Certificados.Scopes
 {
     public static class CertificadoScopes
     {

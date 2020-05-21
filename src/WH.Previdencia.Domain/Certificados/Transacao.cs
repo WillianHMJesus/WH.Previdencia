@@ -1,5 +1,6 @@
 ﻿using System;
 using WH.Previdencia.Domain.Certificados.Enums;
+using WH.Previdencia.Domain.Certificados.Validations;
 using WH.Previdencia.Domain.Core;
 
 namespace WH.Previdencia.Domain.Certificados
@@ -13,10 +14,12 @@ namespace WH.Previdencia.Domain.Certificados
 
         public Transacao(TipoTransacao tipoTransacao, DateTime data, decimal valor)
         {
-            Id = Guid.NewGuid();
+            TransacaoId = Guid.NewGuid();
             TipoTransacao = tipoTransacao;
             Data = data;
             Valor = valor;
+
+            Validate(this, new TransacaoValidator());
         }
     }
 }

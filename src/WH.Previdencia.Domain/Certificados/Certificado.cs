@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using WH.Previdencia.Domain.Certificados.Scopes;
+using WH.Previdencia.Domain.Certificados.Validations;
 using WH.Previdencia.Domain.Certificados.ValueObjects;
 using WH.Previdencia.Domain.Core;
 
@@ -7,6 +9,7 @@ namespace WH.Previdencia.Domain.Certificados
 {
     public class Certificado : Entity
     {
+        public Guid CertificadoId { get; set; }
         public string Numero { get; private set; }
         private decimal Saldo { get; set; }
         public bool Ativo { get; private set; }
@@ -16,12 +19,14 @@ namespace WH.Previdencia.Domain.Certificados
 
         public Certificado(string numero, bool ativo, Produto produto, Vigencia vigencia)
         {
-            Id = Guid.NewGuid();
+            CertificadoId = Guid.NewGuid();
             Numero = numero;
             Ativo = ativo;
             Produto = produto;
             Vigencia = vigencia;
             Transacoes = new List<Transacao>();
+
+            Validate(this, new CertificadoValidator());
         }
 
         public decimal ObterSaldo()
