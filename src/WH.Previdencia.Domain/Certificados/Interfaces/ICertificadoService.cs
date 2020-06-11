@@ -2,12 +2,8 @@
 {
     public interface ICertificadoService
     {
-        void Aportar(string numero, decimal valor);
-
-        void Desativar(string numero);
-
-        Certificado ObterCertificadoPorNumero(string numero);
-
-        void Resgatar(string numero, decimal valor);
+        Certificado Aportar(Certificado certificado);
+        Certificado Resgatar(Certificado certificado);
+        Certificado Desativar(Certificado certificado);
     }
 }
