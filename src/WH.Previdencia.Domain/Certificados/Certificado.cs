@@ -39,18 +39,24 @@ namespace WH.Previdencia.Domain.Certificados
         {
             if (this.ValidarAporteScopeEhValido(valor))
                 Saldo += valor;
+
+            Validate(this, new CertificadoValidator());
         }
 
         public void Resgatar(decimal valor)
         {
             if (this.ValidarResgateScopeEhValido(valor))
                 Saldo -= valor;
+
+            Validate(this, new CertificadoValidator());
         }
 
         public void Desativar()
         {
             if (this.DesativarCertificadoScopeEhValido())
                 Ativo = false;
+
+            Validate(this, new CertificadoValidator());
         }
     }
 }
